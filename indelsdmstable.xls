@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<link rel="shortcut icon" type="image/png" href="/media/images/favicon.png">
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://www.datatables.net/rss.xml">
+	<link rel="stylesheet" type="text/css" href="/media/css/site-examples.css?_=11229a4cc52ab488c3d6ed72e1ec231e1">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+	<style type="text/css" class="init">
+	</style>
+	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="../resources/demo.js"></script>
+	<script type="text/javascript" class="init">
+	
+
+$(document).ready(function () {
+	$('#example').DataTable({
+        lengthMenu: [
+            [-1,10],
+            ['All',10],
+        ],
+        columnDefs: [
+        {
+            targets: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+            className: 'dt-center'
+        },
+            {
+            targets: [0],
+            className: 'dt-left'
+        }
+      ]
+    });
+});
+
+
+	</script>
+</head>
+<body class="wide comments example">
+	<a name="top" id="top"></a>
+	<div class="fw-background">
+		<div></div>
+	</div>
+	<div class="fw-container">
+		<div class="fw-body">
+			<div class="content">
+                <div>
+					<table id="example" class="hover stripe nowrap" style="width:100%">
+ 
+
+
+<thead>
+    <tr style="text-align: right;">
+      <th>DMS id</th>
+      <th>Tranception L no retrieval</th>
+      <th>Tranception S</th>
+      <th>Tranception M</th>
+      <th>Tranception L</th>
+      <th>Wavenet</th>
+      <th>RITA S</th>
+      <th>RITA M</th>
+      <th>RITA L</th>
+      <th>RITA XL</th>
+      <th>RITA (ensemble)</th>
+      <th>Progen2 S</th>
+      <th>Progen2 M</th>
+      <th>Progen2 Base</th>
+      <th>Progen2 L</th>
+      <th>Progen2 XL</th>
+      <th>Progen2 (ensemble)</th>
+      <th>Unirep</th>
+      <th>Unirep evotuned</th>
+      <th>ProtGPT2</th>
+      <th>TranceptEVE L</th>
+      <th>TranceptEVE M</th>
+      <th>number_mutants</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A0A1J4YT16_9PROT_Davidi_2020</th>
+      <td>0.180</td>
+      <td>0.200</td>
+      <td>0.229</td>
+      <td>0.214</td>
+      <td>0.117</td>
+      <td>-0.169</td>
+      <td>0.185</td>
+      <td>0.207</td>
+      <td>0.210</td>
+      <td>0.159</td>
+      <td>0.136</td>
+      <td>0.189</td>
+      <td>0.192</td>
+      <td>0.200</td>
+      <td>0.132</td>
+      <td>0.177</td>
+      <td>-0.136</td>
+      <td>0.331</td>
+      <td>0.224</td>
+      <td>0.212</td>
+      <td>0.235</td>
+      <td>105</td>
+    </tr>
+    <tr>
+      <th>B1LPA6_ECOSM_Russ_2020</th>
+      <td>0.321</td>
+      <td>0.410</td>
+      <td>0.427</td>
+      <td>0.416</td>
+      <td>0.385</td>
+      <td>0.292</td>
+      <td>0.383</td>
+      <td>0.339</td>
+      <td>0.348</td>
+      <td>0.359</td>
+      <td>0.303</td>
+      <td>0.336</td>
+      <td>0.360</td>
+      <td>0.357</td>
+      <td>0.335</td>
+      <td>0.356</td>
+      <td>0.278</td>
+      <td>0.412</td>
+      <td>0.310</td>
+      <td>0.421</td>
+      <td>0.433</td>
+      <td>3074</td>
+    </tr>
+    <tr>
+      <th>BLAT_ECOLX_Gonzalez_indels_2019</th>
+      <td>0.296</td>
+      <td>0.446</td>
+      <td>0.398</td>
+      <td>0.336</td>
+      <td>0.546</td>
+      <td>0.436</td>
+      <td>0.455</td>
+      <td>0.334</td>
+      <td>0.345</td>
+      <td>0.446</td>
+      <td>0.496</td>
+      <td>0.619</td>
+      <td>0.664</td>
+      <td>0.604</td>
+      <td>0.409</td>
+      <td>0.666</td>
+      <td>0.013</td>
+      <td>0.296</td>
+      <td>0.155</td>
+      <td>0.342</td>
+      <td>0.401</td>
+      <td>4751</td>
+    </tr>
+    <tr>
+      <th>CAPSD_AAV2S_Sinai_indels_2021</th>
+      <td>0.549</td>
+      <td>0.580</td>
+      <td>0.581</td>
+      <td>0.586</td>
+      <td>0.457</td>
+      <td>0.253</td>
+      <td>0.319</td>
+      <td>0.453</td>
+      <td>0.463</td>
+      <td>0.406</td>
+      <td>-0.314</td>
+      <td>-0.320</td>
+      <td>-0.267</td>
+      <td>-0.322</td>
+      <td>0.428</td>
+      <td>-0.210</td>
+      <td>0.370</td>
+      <td>0.501</td>
+      <td>0.124</td>
+      <td>0.594</td>
+      <td>0.593</td>
+      <td>250907</td>
+    </tr>
+    <tr>
+      <th>HIS7_YEAST_Pokusaeva_indels_2019</th>
+      <td>0.707</td>
+      <td>0.634</td>
+      <td>0.672</td>
+      <td>0.692</td>
+      <td>0.680</td>
+      <td>0.638</td>
+      <td>0.656</td>
+      <td>0.677</td>
+      <td>0.684</td>
+      <td>0.678</td>
+      <td>0.669</td>
+      <td>0.702</td>
+      <td>0.706</td>
+      <td>0.703</td>
+      <td>0.713</td>
+      <td>0.714</td>
+      <td>-0.002</td>
+      <td>0.256</td>
+      <td>-0.091</td>
+      <td>0.695</td>
+      <td>0.678</td>
+      <td>6102</td>
+    </tr>
+    <tr>
+      <th>PTEN_HUMAN_Mighell_deletions_2018</th>
+      <td>0.563</td>
+      <td>0.658</td>
+      <td>0.707</td>
+      <td>0.605</td>
+      <td>0.699</td>
+      <td>0.612</td>
+      <td>0.575</td>
+      <td>0.504</td>
+      <td>0.523</td>
+      <td>0.657</td>
+      <td>0.696</td>
+      <td>0.552</td>
+      <td>0.640</td>
+      <td>0.590</td>
+      <td>0.402</td>
+      <td>0.673</td>
+      <td>0.325</td>
+      <td>0.533</td>
+      <td>0.056</td>
+      <td>0.602</td>
+      <td>0.708</td>
+      <td>314</td>
+    </tr>
+    <tr>
+      <th>P53_HUMAN_Kotler_deletions_2018</th>
+      <td>0.395</td>
+      <td>0.407</td>
+      <td>0.548</td>
+      <td>0.398</td>
+      <td>0.001</td>
+      <td>0.360</td>
+      <td>0.407</td>
+      <td>0.383</td>
+      <td>0.273</td>
+      <td>0.414</td>
+      <td>0.474</td>
+      <td>0.428</td>
+      <td>0.391</td>
+      <td>0.449</td>
+      <td>0.354</td>
+      <td>0.471</td>
+      <td>-0.073</td>
+      <td>0.534</td>
+      <td>0.026</td>
+      <td>0.399</td>
+      <td>0.560</td>
+      <td>341</td>
+    </tr>
+  </tbody>
+                    
+                    
+                    </table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="fw-footer">
+		<div class="skew"></div>
+		<div class="skew-bg"></div>
+	</div>
+	<script type="text/javascript">
+				  var _gaq = _gaq || [];
+				  _gaq.push(['_setAccount', 'UA-365466-5']);
+				  _gaq.push(['_trackPageview']);
+
+				  (function() {
+					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				  })();
+	</script>
+</body>
+</html>

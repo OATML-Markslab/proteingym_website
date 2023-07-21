@@ -1,0 +1,28 @@
+
+.top-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top:5vh;
+}
+
+.text-div{
+    margin-left:20%;
+    margin-right:20%; 
+    width:60%;
+}
+
+/* Limits width of text */
+.home-text {
+    line-height: 1.5;
+    text-align:left;
+}
+
+.list-text{
+    line-height:2;
+}
+
+/* makes bottom div portion light gray background */
+.grey-area-div{
+    background-color: #f2f2f2;
+}

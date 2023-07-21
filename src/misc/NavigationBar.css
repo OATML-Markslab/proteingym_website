@@ -1,0 +1,5 @@
+.full-width-navbar {
+    width: 100%;
+    position: fixed;
+    z-index: 1000; /* (optional) Adjust the z-index value as needed to ensure the navbar displays correctly */
+  }
