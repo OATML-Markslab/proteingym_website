@@ -3,9 +3,10 @@
 import React from 'react';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import Papa from 'papaparse';
-import { Table } from '@mantine/core';
+import { Table, Select, Radio, Group } from '@mantine/core';
 import { TableVirtuoso } from "react-virtuoso";
-import './css/Substitutions.css';
+import { useLocation } from "react-router-dom";
+import './css/Benchmarks.css';
 
 const BACKGROUND_COLOR = "#ffffff";
 const AGGREGATE_SUPERHEADERS = [{"key":"Spearman by MSA Depth", "colspan":3},{"key":"Spearman by Taxon","colspan":4},
@@ -71,30 +72,98 @@ const renderSortIcon = (targetKey, sortKey) => {
   }
 };
 
-function Substitutions() {
+function Benchmarks() {
+    const location = useLocation();
+    if(location.state === null){
+        location.state = {"viewType":"full", "dataDomain":"dms-substitutions", "modelParadigm":"zeroshot", "sortKey":"Rank-ASC"};
+    }
+
     const [tableData, setTableData] = useState([]);
-    const [viewType, setViewType] = useState('model');
+    const [viewType, setViewType] = useState(location.state.viewType); // 'full' or 'aggregate'
+    const [ modelParadigm, setModelParadigm ] = useState(location.state.modelParadigm); // 'zeroshot' or 'supervised'
+    const [ dataDomain, setDataDomain ] = useState(location.state.dataDomain); // 'dms-substitutions', 'dms-indels', 'clinical-substitutions', 'clinical-indels'
     const [tableColumns, setTableColumns] = useState([]);
-    const [sortKey, setSortKey] = useState("Rank-ASC");
+    const [sortKey, setSortKey] = useState(location.state.sortKey);
     const [searchQuery, setSearchQuery] = useState('');
     const virtuosoRef = useRef(null);
+
     function handleCsvData(data) {
         setTableData(data);
         setTableColumns(Object.keys(data[0]));
     }
 
     useEffect(() => {
-        if(viewType === 'model') {
-            Papa.parse("/data/aggregatetabledata.csv", {
-                download: true,
-                header: true,
-                complete: function(results) {
-                    handleCsvData(results.data);
-                    setTableColumns(AGGREGATE_COLUMNS);
+        if(viewType === 'aggregate') {
+          var filepath; 
+          if(modelParadigm === 'zeroshot') {
+            if(dataDomain === 'dms-substitutions') {
+              filepath = "/data/aggregate_zeroshot_dms_subs_data.csv";
+            }
+            else if(dataDomain === 'dms-indels') {
+              filepath = "/data/aggregate_zeroshot_dms_indels_data.csv";
+            }
+            else if(dataDomain === 'clinical-substitutions') {
+              filepath = "/data/aggregate_zeroshot_clinical_subs_data_test.csv";
+            }
+            else if(dataDomain === 'clinical-indels') {
+              filepath = "/data/aggregate_zeroshot_clinical_indels_data_test.csv";
+            }
+          }
+          else if(modelParadigm === 'supervised') {
+            if(dataDomain === 'dms-substitutions') {
+              filepath = "/data/aggregate_supervised_dms_subs_data_test.csv";
+            }
+            else if(dataDomain === 'dms-indels') {
+              filepath = "/data/aggregate_supervised_dms_indels_data_test.csv";
+            }
+            else if(dataDomain === 'clinical-substitutions') {
+              filepath = "/data/aggregate_supervised_clinical_subs_data_test.csv";
+            }
+            else if(dataDomain === 'clinical-indels') {
+              filepath = "/data/aggregate_supervised_clinical_indels_data_test.csv";
+            }
+          }
+          Papa.parse(filepath, {
+            download: true,
+            header: true,
+            complete: function(results) {
+                handleCsvData(results.data);
+                if (dataDomain === "dms-substitutions" || dataDomain === "clinical-substitutions"){
+                  setTableColumns(AGGREGATE_COLUMNS);
                 }
-            });
-        } else {
-            Papa.parse("/data/dmstabledata.csv", {
+              }
+          });
+        } else if (viewType === "full") {
+            var filepath; 
+            if(modelParadigm === 'zeroshot') {
+              if(dataDomain === 'dms-substitutions') {
+                filepath = "/data/zeroshot_dms_subs_data.csv";
+              }
+              else if(dataDomain === 'dms-indels') {
+                filepath = "/data/zeroshot_dms_indels_data.csv";
+              }
+              else if(dataDomain === 'clinical-substitutions') {
+                filepath = "/data/zeroshot_clinical_subs_data_test.csv";
+              }
+              else if(dataDomain === 'clinical-indels') {
+                filepath = "/data/zeroshot_clinical_indels_data_test.csv";
+              }
+            }
+            else if(modelParadigm === 'supervised') {
+              if(dataDomain === 'dms-substitutions') {
+                filepath = "/data/supervised_dms_subs_data_test.csv";
+              }
+              else if(dataDomain === 'dms-indels') {
+                filepath = "/data/supervised_dms_indels_data_test.csv";
+              }
+              else if(dataDomain === 'clinical-substitutions') {
+                filepath = "/data/supervised_clinical_subs_data_test.csv";
+              }
+              else if(dataDomain === 'clinical-indels') {
+                filepath = "/data/supervised_clinical_indels_data_test.csv";
+              }
+            }
+            Papa.parse(filepath, {
                 download: true,
                 header: true,
                 complete: function(results) {
@@ -102,7 +171,7 @@ function Substitutions() {
                 }
             });
         }
-    },[viewType])
+    },[viewType, modelParadigm, dataDomain])
 
     const sortedTableData = useMemo(() => {
         if (tableData.length === 0) {
@@ -125,7 +194,7 @@ function Substitutions() {
     // Filter the table data based on the search query
     const filteredSortedTableData = useMemo(() => {
           var searchField = "DMS id";
-          if(viewType === "model") {
+          if(viewType === "aggregate") {
               searchField = "Model name";
           }
           if (searchQuery === '') {
@@ -138,14 +207,14 @@ function Substitutions() {
         }, [searchQuery, sortedTableData]);
 
     function customHeader(){
-      if(viewType == 'DMS') {
+      if(viewType == 'full' || (dataDomain !== 'dms-substitutions' && dataDomain !== 'clinical-substitutions')) {
         return <tr style={{backgroundColor:BACKGROUND_COLOR}}>
           {tableColumns.map((column) => (
               <th className="th-header" onClick={() => setSortKey(computeNextSortKey(sortKey, column))} key={column}>{column}{renderSortIcon(column, sortKey)}</th>
           ))}
         </tr> 
       }
-      else {
+      else if(viewType == 'aggregate') {
        return <>
                 <tr style={{backgroundColor:BACKGROUND_COLOR}}>
                   {tableColumns.map((column, index) => {
@@ -169,13 +238,13 @@ function Substitutions() {
     }
 
     function changeTable(){
-      if(viewType === 'model') {
-        setViewType('DMS');
+      if(viewType === 'full') {
+        setViewType('aggregate');
         setSortKey("DMS id-ASC");
         setSearchQuery('');
       }
-      else {
-        setViewType('model');
+      else if(viewType === 'aggregate') {
+        setViewType('full');
         setSortKey("Rank-ASC");
         setSearchQuery('');
       }
@@ -183,15 +252,21 @@ function Substitutions() {
 
     return (
         <div className="main-div">
-        <h1 className="title">Substitution Benchmark</h1>
-        <div className="search-and-button">
-          <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={viewType === "model" ? "Search by model name" : "Search by DMS id"}
-              />
-          <button className="button" onClick={changeTable}>{viewType === "model" ? "Show DMS View" : "Show Model View"}</button>
+        <h1 className="title">Benchmark Scores</h1>
+        <div className="search-and-buttons">
+          <div className="dropdowns">
+            <Select style={{ float:"left", marginRight:"2vw"}} label="" placeholder="Mutation Type" onChange={setDataDomain} data={[{value:"dms-substitutions",label:"DMS Substitutions"},{value:"dms-indels",label: "DMS Indels"}, 
+            {value:"clinical-substitutions","label":"Clinical Substitutions"},{value:"clinical-indels", label:"Clinical Indels"}]} value={dataDomain}></Select>
+            <Select style={{ float:"right"}} label="" placeholder="Model Paradigm" onChange={setModelParadigm} data={[{value:"zeroshot", label:"Zero-Shot"},{value:"supervised", label:"Supervised"}]} value={modelParadigm}></Select>
+          </div>
+          <div className='viewtype-buttons'>
+            <Radio.Group name="View Type" onChange={(event) => setViewType(event)}>
+                <Group>
+                  <Radio value="full" checked={viewType === "full"} label="DMS View"></Radio>
+                  <Radio value="aggregate" checked={viewType === "aggregate"} label="Aggregate View"></Radio>
+                </Group>
+            </Radio.Group>
+          </div>
         </div>
         <br/>
         <TableVirtuoso
@@ -236,4 +311,4 @@ function Substitutions() {
     );
     }
 
-export default Substitutions;
+export default Benchmarks;

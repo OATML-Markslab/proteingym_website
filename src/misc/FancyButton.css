@@ -1,0 +1,41 @@
+.button {
+    display: inline-block;
+    /* padding: 0.25rem 0.75rem; */
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+    font-size: 1rem;
+    font-family: "Space Grotesk", sans-serif;
+    line-height: 130%;
+    background-color: #222;
+    border: 2px solid #fff;
+    color: #e8eaed;
+    border-radius: 1rem;
+    text-decoration: none;
+    position: relative;
+    top: 0;
+    transition: 0.35s;
+    cursor: pointer;
+  }
+  
+  /* .button::before {
+    content: '#';
+    margin-right: .5rem;
+  } */
+  
+  .button.top:hover {
+    top: 0.25rem;
+    box-shadow: 0 -1px 0 #e8eaed, 0 -3px 0 -1px #e8eaed, 0 -5px 0 -2px #e8eaed,
+      0 -7px 0 -3px #e8eaed, 0 -9px 0 -5px #e8eaed, 0 -11px 0 -6px #e8eaed;
+  }
+  
+  /* .button.bottom:hover {
+    top: 0.25rem;
+    box-shadow: 0 -1px 0 #fff, 0 -3px 0 -1px #fff, 0 -5px 0 -2px #fff,
+      0 -7px 0 -3px #fff, 0 -9px 0 -5px #fff, 0 -11px 0 -6px #fff;
+  } */
+  
+  .button.bottom:hover {
+    top: -0.25rem;
+    box-shadow: 0 1px 0 #e8eaed, 0 3px 0 -1px #e8eaed, 0 5px 0 -2px #e8eaed,
+      0 7px 0 -3px #e8eaed, 0 9px 0 -5px #e8eaed, 0 11px 0 -6px #e8eaed;
+  }
+  

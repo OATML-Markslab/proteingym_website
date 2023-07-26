@@ -17,9 +17,9 @@ function Navigationbar() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto" defaultActiveKey="/" activeKey={location.pathname}>
                         <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="/indels">Indels</Nav.Link>
-                        <Nav.Link href="/substitutions">Substitutions</Nav.Link>
-                        <Nav.Link href="/assayinfo">Assay Info</Nav.Link>
+                        <Nav.Link href="/benchmarks">Benchmarks</Nav.Link>
+                        <Nav.Link href="/download">Download</Nav.Link>
+                        <Nav.Link href="/about">About</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

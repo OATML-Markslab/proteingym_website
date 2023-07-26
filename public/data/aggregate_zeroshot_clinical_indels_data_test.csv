@@ -1,0 +1,2 @@
+Rank,Model name,Model type,Avg. Spearman,Std. error of diff. To best score*,Description,References
+1,Zero Shot Clinical Indel Model,Hybrid Model,0.516,0,TranceptEVE Medium model (Tranception Medium & retrieved EVE model),"Notin, P., Van Niekerk, L., Kollasch, A., Ritter, D., Gal, Y. & Marks, D.S. & (2022). TranceptEVE: Combining Family-specific and Family-agnostic Models of Protein Sequences for Improved Fitness Prediction. NeurIPS, LMRL workshop."

@@ -1,6 +1,6 @@
 import React from 'react';
 import './css/Home.css';
-
+import FancyButton from '../misc/FancyButton';
 // Homepage with a message saying "This is the homepage"! 
 // This is the default page that will be displayed when the user visits the root URL of your application.
 function Home() {
@@ -9,22 +9,20 @@ function Home() {
             <div className="top-div">
                 <h1 style={{marginBottom:"5vh"}}><b>ProteinGym</b></h1>
                 <div className="text-div">
-                    <p className="home-text"><b>ProteinGym</b> is an extensive set of Deep Mutational Scanning (DMS) assays curated to assess the ability of mutation effect 
-                    predictors to <b>predict the fitness of mutated proteins</b>. It is comprised of two benchmarks: 
-                    </p>
-                    <ul className="list-text">
-                        <li>A <b>substitution benchmark</b> which consists of the experimental characterization of <b>∼1.5M missense variants</b> across <b>87 DMS assays</b> </li>
-                        <li>An <b>indel benchmark</b> that includes <b>∼300k mutants</b> across <b>7 DMS assays</b></li>
-                    </ul>
-                    <p className="home-text">
-                        This website is aimed at facilitating comparisons of a large collection of mutation effect predictors in various regimes (eg., mutation depth, taxa, MSA depth).
-                    </p>
-                    <p className="home-text">
-                        Instructions to download the benchmarks are available on our <a href="https://github.com/OATML-Markslab/ProteinGym">GitHub repository</a>.
-                    </p>
-                    <p className="home-text">
-                        More details about the benchmark are provided in our <a href="https://proceedings.mlr.press/v162/notin22a.html">paper</a>
-                    </p>
+                    <p className="home-text"> <b>ProteinGym</b> is a collection of benchmarks aiming at comparing the ability of models to predict the effects of protein mutations.
+                    The benchmarks in ProteinGym are divided according to mutation type (substitutions vs. indels), ground truth source (DMS assay vs. clinical annotation), and training regime (zero-shot vs. supervised).</p>
+                </div>
+                <div className="button-outer-container">
+                    <div className="dms-button-container">
+                        <h3>DMS Benchmarks</h3>
+                        <FancyButton pageLink="/benchmarks" text="DMS Substitutions (190 assays, ?? mutants)" viewType="aggregate" dataDomain="dms-substitutions" modelParadigm="zeroshot" sortKey="Rank-ASC"/>
+                        <FancyButton pageLink="/benchmarks" text="DMS Indels (10 assays, ?? mutants)" viewType="aggregate" dataDomain="dms-indels" modelParadigm="zeroshot" sortKey="Rank-ASC"/>
+                    </div>
+                    <div className="clinical-button-container">
+                        <h3>Clinical Benchmarks</h3>
+                        <FancyButton pageLink="/benchmarks" text="Clinical Substitutions (3k genes, ?? mutants)" viewType="aggregate" dataDomain="clinical-substitutions" modelParadigm="zeroshot" sortKey="Rank-ASC"/>
+                        <FancyButton pageLink="/benchmarks" text="Clinical Indels (1k genes, ?? mutants" viewType="aggregate" dataDomain="clinical-indels" modelParadigm="zeroshot" sortKey="Rank-ASC"/>
+                    </div>
                 </div>
             </div>
             <div className="grey-area-div top-div">

@@ -23,3 +23,24 @@
   padding-top:5vh;
   padding-bottom: 2vh;
 }
+
+.search-and-buttons{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:80%;
+}
+
+.viewtype-buttons{
+  display:flex;
+  justify-content:right;
+  align-items: center;
+  width:50%;
+}
+
+.dropdowns{
+  display:flex;
+  align-items: center;
+  justify-content: left;
+  width: 50%;
+}
