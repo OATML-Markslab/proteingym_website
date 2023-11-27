@@ -21,9 +21,9 @@ function App() {
           <Route path="/download" element={<Layout />}>
             <Route index element={<Download />}/>
           </Route>
-          <Route path="/about" element={<Layout />}>
+          {/* <Route path="/about" element={<Layout />}>
             <Route index element={<About />}/>
-          </Route>
+          </Route> */}
         </Routes>
       </BrowserRouter>
   );

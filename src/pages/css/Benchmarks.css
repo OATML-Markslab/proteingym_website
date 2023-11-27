@@ -8,13 +8,14 @@
 }
 
 .th-header { 
-    white-space: nowrap; /* Prevent text wrapping */
+    white-space: normal; /* Prevent text wrapping */
     overflow: hidden;
     text-overflow: ellipsis; /* Show ellipsis for overflowing text */
 }
 
 .truncate-cell {
   white-space: nowrap;
+  background:#ffffff;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -43,4 +44,30 @@
   align-items: center;
   justify-content: left;
   width: 50%;
+}
+
+.sticky-column{
+  position:sticky;
+  left: 0;
+  z-index:1;
+  background:#ffffff;
+}
+
+.default-header{
+  position:relative;
+  z-index:2;
+  background:#ffffff;
+}
+
+.default-row{
+  position:relative;
+  z-index: 0;
+  background:#ffffff;
+}
+
+.th-fixed-header{
+  position:sticky;
+  left:0;
+  z-index:3;
+  background:#ffffff;
 }

@@ -19,7 +19,7 @@ function Navigationbar() {
                         <Nav.Link href="/">Home</Nav.Link>
                         <Nav.Link href="/benchmarks">Benchmarks</Nav.Link>
                         <Nav.Link href="/download">Download</Nav.Link>
-                        <Nav.Link href="/about">About</Nav.Link>
+                        {/* <Nav.Link href="/about">About</Nav.Link> */}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

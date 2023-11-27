@@ -1,8 +1,7 @@
 import React from 'react';
 import './css/Home.css';
 import FancyButton from '../misc/FancyButton';
-// Homepage with a message saying "This is the homepage"! 
-// This is the default page that will be displayed when the user visits the root URL of your application.
+import DirectionallyAwareButton from '../misc/DirectionallyAwareButton';
 function Home() {
     return (
         <div className="home-div">
@@ -15,20 +14,21 @@ function Home() {
                 <div className="button-outer-container">
                     <div className="dms-button-container">
                         <h3>DMS Benchmarks</h3>
-                        <FancyButton pageLink="/benchmarks" text="DMS Substitutions (190 assays, ?? mutants)" viewType="aggregate" dataDomain="dms-substitutions" modelParadigm="zeroshot" sortKey="Rank-ASC"/>
-                        <FancyButton pageLink="/benchmarks" text="DMS Indels (10 assays, ?? mutants)" viewType="aggregate" dataDomain="dms-indels" modelParadigm="zeroshot" sortKey="Rank-ASC"/>
+                        <DirectionallyAwareButton filled="true" pageLink="/benchmarks" viewType="aggregate" dataDomain="DMS_substitutions" modelParadigm="zero_shot" sortKey="Rank-ASC" currStatistic="Spearman">DMS Substitutions (217 assays, 2.5M mutants)</DirectionallyAwareButton>
+                        {/* <FancyButton pageLink="/benchmarks" text="DMS Substitutions (217 assays, 2.5M mutants)" viewType="aggregate" dataDomain="dms_subs" modelParadigm="zeroshot" sortKey="Rank-ASC" currStatistic="Spearman" /> */}
+                        <DirectionallyAwareButton filled="true" pageLink="/benchmarks" viewType="aggregate" dataDomain="DMS_indels" modelParadigm="zero_shot" sortKey="Rank-ASC" currStatistic="Spearman">DMS Indels (66 assays, 300K mutants)</DirectionallyAwareButton>
                     </div>
                     <div className="clinical-button-container">
                         <h3>Clinical Benchmarks</h3>
-                        <FancyButton pageLink="/benchmarks" text="Clinical Substitutions (3k genes, ?? mutants)" viewType="aggregate" dataDomain="clinical-substitutions" modelParadigm="zeroshot" sortKey="Rank-ASC"/>
-                        <FancyButton pageLink="/benchmarks" text="Clinical Indels (1k genes, ?? mutants" viewType="aggregate" dataDomain="clinical-indels" modelParadigm="zeroshot" sortKey="Rank-ASC"/>
+                        <DirectionallyAwareButton filled="true" pageLink="/benchmarks" viewType="aggregate" dataDomain="clinical_substitutions" modelParadigm="zero_shot" sortKey="Rank-ASC" currStatistic="Spearman">Clinical Substitutions (2.5K genes, 63K mutants)</DirectionallyAwareButton>
+                        <DirectionallyAwareButton filled="true" pageLink="/benchmarks" viewType="aggregate" dataDomain="clinical_indels" modelParadigm="zero_shot" sortKey="Rank-ASC" currStatistic="Spearman">Clinical Indels (1.5K genes, 3K mutants)</DirectionallyAwareButton>
                     </div>
                 </div>
             </div>
             <div className="grey-area-div top-div">
                 <div className="text-div">
                     <p className="home-text">This project has been developed by:</p>
-                    <p className="home-text">Pascal Notin, Mafalda Dias, Jonathan Frazer, Javier Marchena-Hurtado, Aidan N. Gomez, Debora S. Marks, Yarin Gal</p>
+                    <p className="home-text">Pascal Notin, Aaron Kollasch, Daniel Ritter, Lood Van Niekerk, Steffanie Paul, Han Spinner, Nathan Rollins, Ada Shaw, Rose Orenbuch, Ruben Weitzman, Jonathan Frazer, Mafalda Dias, Dinko Franceschi, Yarin Gal, and Debora Marks</p>
                     <br/>
                     <br/>
                     <p><b>OATML</b> - Oxford Applied and Theoretical Machine Learning Group</p>

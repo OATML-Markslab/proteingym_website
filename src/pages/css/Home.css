@@ -44,6 +44,7 @@
     background-color: #c7c3c3;
     border-radius: 30px;
     padding: 1%;
+    gap:1vh;
 }
 
 .clinical-button-container{
@@ -56,4 +57,5 @@
     background-color: #c7c3c3;
     border-radius: 30px;
     padding: 1%;
+    gap:1vh;
 }

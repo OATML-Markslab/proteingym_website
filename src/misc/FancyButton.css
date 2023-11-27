@@ -25,8 +25,8 @@
   
   .button.top:hover {
     top: 0.25rem;
-    box-shadow: 0 -1px 0 #e8eaed, 0 -3px 0 -1px #e8eaed, 0 -5px 0 -2px #e8eaed,
-      0 -7px 0 -3px #e8eaed, 0 -9px 0 -5px #e8eaed, 0 -11px 0 -6px #e8eaed;
+    box-shadow: 0 -1px 0 #565e69, 0 -3px 0 -1px #565e69, 0 -5px 0 -2px #565e69,
+      0 -7px 0 -3px #565e69, 0 -9px 0 -5px #565e69, 0 -11px 0 -6px #565e69;
   }
   
   /* .button.bottom:hover {
@@ -37,7 +37,7 @@
   
   .button.bottom:hover {
     top: -0.25rem;
-    box-shadow: 0 1px 0 #e8eaed, 0 3px 0 -1px #e8eaed, 0 5px 0 -2px #e8eaed,
-      0 7px 0 -3px #e8eaed, 0 9px 0 -5px #e8eaed, 0 11px 0 -6px #e8eaed;
+    box-shadow: 0 1px 0 #565e69, 0 3px 0 -1px #565e69, 0 5px 0 -2px #565e69,
+      0 7px 0 -3px #565e69, 0 9px 0 -5px #565e69, 0 11px 0 -6px #565e69;
   }
   
