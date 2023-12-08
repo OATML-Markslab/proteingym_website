@@ -11,7 +11,8 @@ import './css/Benchmarks.css';
 
 const BACKGROUND_COLOR = "#ffffff";
 
-// A hack because of weird ordering thing with javascript integer keys 
+const cleanNames = {"zero_shot":"Zero Shot", "clinical_substitutions":"Clinical Substitutions","DMS_substitutions":"DMS Substitutions","DMS_indels":"DMS Indels","clinical_indels":"Clinical Indels","supervised":"Supervised"}
+const viewTypeMessages = {"full":"Individual View","aggregate":"Aggregate View"}
 const cleanColumns = {"DMS_id":"DMS ID", "Site_Independent":"Site Independent","DeepSequence_single":"DeepSequence (single)","DeepSequence_ensemble":"DeepSequence (ensemble)",
 "EVE_single":"EVE (single)","EVE_ensemble":"EVE (ensemble)",
 "Unirep_evotune":"Unirep (evotuned)","MSA_Transformer_single":"MSA Transformer (single)","MSA_Transformer_ensemble":"MSA Transformer (ensemble)",
@@ -86,17 +87,26 @@ const renderSortIcon = (targetKey, sortKey) => {
 let fixAggregateViewColumns = (object,metric) => {
   return Object.keys(object).map((key) => {
     let newKey; 
-    if(key == `Average_${metric}`){
-      newKey = `Avg. ${metric}`
+    if(key === `Average_${metric}`){
+      newKey = `Avg. ${metric}`;
     }
-    else if(key == `Bootstrap_standard_error_${metric}`){
-      newKey = `Std. Error of Diff. to Best Score*`
+    else if(key === `Bootstrap_standard_error_${metric}`){
+      newKey = `Std. Error of Diff. to Best Score*`;
     }
     else if(key.startsWith("Depth_")){
-      newKey = key.replace("Depth_","")
+      newKey = key.replace("Depth_","");
     }
-    else if(key == `UniProt_level_Average_${metric}`){
-      newKey = `UniProt Level Average ${metric}`
+    else if(key === `UniProt_level_Average_${metric}`){
+      newKey = `UniProt Level Average ${metric}`;
+    }
+    else if(key === `Average_${metric}_fold_random_5`){
+      newKey = `Random`;
+    }
+    else if(key === `Average_${metric}_fold_contiguous_5`){
+      newKey = `Contiguous`;
+    }
+    else if(key === `Average_${metric}_fold_modulo_5`){
+      newKey = `Modulo`;
     }
     else {
       newKey = cleanColumns[key] || key;
@@ -111,10 +121,23 @@ let fixDMSViewColumns = (object) => {
   return { [newKey] : object[key] };
 }).reduce((a,b) => Object.assign({},a,b));};
 
+// Take in a list of objects, and add "NA" to any missing keys based on the passed in columns
+let addMissingKeys = (listOfObjects,columns) => {
+  // remove objects of length 1 (parsing error I think)
+  listOfObjects = listOfObjects.filter((object) => Object.keys(object).length > 1);
+  const keys = columns || Object.keys(listOfObjects[0]);
+  return listOfObjects.map((object) => {
+    return keys.map((key) => {
+      return { [key] : object[key] || "N/A" };
+    }).reduce((a,b) => Object.assign({},a,b));
+  });
+
+}
+
 function Benchmarks() {
     const location = useLocation();
     if(location.state === null){
-        location.state = {"viewType":"full", "dataDomain":"DMS_substitutions", "modelParadigm":"zeroshot", "sortKey":"Rank-ASC", "currStatistic":"Spearman"};
+        location.state = {"viewType":"aggregate", "dataDomain":"DMS_substitutions", "modelParadigm":"zero_shot", "sortKey":"Rank-ASC", "currStatistic":"Spearman"};
     }
     const [tableData, setTableData] = useState([]);
     const [viewType, setViewType] = useState(location.state.viewType); // 'full' or 'aggregate'
@@ -124,29 +147,98 @@ function Benchmarks() {
     const [sortKey, setSortKey] = useState(location.state.sortKey);
     const [currStatistic, setCurrStatistic] = useState(location.state.currStatistic);
     const [searchQuery, setSearchQuery] = useState('');
+    const [availableMetrics, setAvailableMetrics] = useState([{value:"Spearman", label:"Spearman"},{value:"AUC", label:"AUC"},{value:"NDCG",label:"NDCG"},{value:"MCC",label:"MCC"}]);
+    const [availableParadigms, setAvailableParadigms] = useState([{value:"zero_shot", label:"Zero-Shot"},{value:"supervised", label:"Supervised"}]);
+    const [aggregateSuperheaders, setAggregateSuperheaders] = useState([{"key":`${currStatistic} by Function`,"colspan":5}, {"key":`${currStatistic} by MSA Depth`, "colspan":3},{"key":`${currStatistic} by Taxon`,"colspan":4},{"key":`${currStatistic} by Mutation Depth`,"colspan":5},{"key":"Model Details", "colspan":2}]);
+    // const [aggregateColumns, setAggregateColumns] = useState(`Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(","));
     const virtuosoRef = useRef(null);
-    const AGGREGATE_SUPERHEADERS = [{"key":`${currStatistic} by Function`,"colspan":5}, {"key":`${currStatistic} by MSA Depth`, "colspan":3},{"key":`${currStatistic} by Taxon`,"colspan":4},
-      {"key":`${currStatistic} by Mutation Depth`,"colspan":5},{"key":"Model Details", "colspan":2}]
-    const AGGREGATE_COLUMNS = `Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,1,2,3,4,5+,Description,References`.split(",");
+    
     function handleCsvData(data) {
-      if ((dataDomain === "DMS_substitutions" || dataDomain === "clinical_substitutions") && (viewType === "aggregate")){
-        data = data.map((row) => {return fixAggregateViewColumns(row,currStatistic)});
-        setTableData(data);
-        setTableColumns(AGGREGATE_COLUMNS);
-        return;
+      var superheaders = [];
+      var columns = [];
+      if(modelParadigm === "zero_shot"){
+        if(dataDomain === "DMS_substitutions"){
+          superheaders = [{"key":`${currStatistic} by Function`,"colspan":5}, {"key":`${currStatistic} by MSA Depth`, "colspan":3},{"key":`${currStatistic} by Taxon`,"colspan":4},{"key":`${currStatistic} by Mutation Depth`,"colspan":5},{"key":"Model Details", "colspan":2}];
+          columns = `Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,1,2,3,4,5+,Description,References`.split(",");
+        }
+        else if(dataDomain === "DMS_indels"){
+          superheaders = [{"key":`${currStatistic} by Function`,"colspan":5}, {"key":`${currStatistic} by MSA Depth`, "colspan":3},{"key":`${currStatistic} by Taxon`,"colspan":4},{"key":"Model Details", "colspan":2}];
+          columns = `Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(",");
+        }
+        else if(dataDomain === "clinical_substitutions"){
+          superheaders = [];
+          columns = `Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*`.split(",");
+        }
+        else if(dataDomain === "clinical_indels"){
+          superheaders = [];
+          columns = `Rank,Model name,Model type,Avg. ${currStatistic}`.split(",");
+        }
       }
-      // Indels summary case 
-      else if(viewType == "aggregate"){
+      else {
+        if(dataDomain === "DMS_substitutions" || dataDomain === "DMS_indels"){
+          superheaders = [{"key":`${currStatistic} by Cross-Validation Scheme`,"colspan":3},{"key":`${currStatistic} by Function`,"colspan":5}, {"key":`${currStatistic} by MSA Depth`, "colspan":3},{"key":`${currStatistic} by Taxon`,"colspan":4},{"key":"Model Details", "colspan":2}];
+          columns = `Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*,Random,Modulo,Contiguous,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(",");
+        }
+        else if(dataDomain === "clinical_substitutions" || dataDomain === "clinical_indels"){
+          superheaders = [];
+          columns = `Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*`.split(",");
+        }
+      }
+      setAggregateSuperheaders(superheaders);
+      // setAggregateColumns(columns);
+      if (viewType === "aggregate"){
         data = data.map((row) => {return fixAggregateViewColumns(row,currStatistic)});
+        console.log(data);
+        data = addMissingKeys(data,columns);
         setTableData(data);
-        setTableColumns(Object.keys(data[0]));
+        setTableColumns(columns);
       }
       else{
         data = data.map((row) => {return fixDMSViewColumns(row)});
+        data = addMissingKeys(data,Object.keys(data[0]));
         setTableData(data);
         setTableColumns(Object.keys(data[0]));
       }
     }
+
+    function handleCsvError(error, file){
+      console.log(error);
+      console.log(file);
+      setTableData([]);
+      // setAggregateColumns([]);
+      setAggregateSuperheaders([]);
+      setTableColumns([]);
+    }
+
+    useEffect(() => {
+      if(dataDomain === "clinical_substitutions" || dataDomain === "clinical_indels"){
+        setAvailableMetrics([{value:"AUC", label:"AUC"}]);
+      }
+      else if(dataDomain === "DMS_substitutions" || dataDomain === "DMS_indels"){
+        // ideally we add in AUC, NDCG and MCC later here 
+       if(modelParadigm === "supervised"){
+          setAvailableMetrics([{value:"Spearman", label:"Spearman"},{value:"MSE", label:"MSE"}]);
+       }
+       else{
+          setAvailableMetrics([{value:"Spearman", label:"Spearman"},{value:"AUC", label:"AUC"},{value:"NDCG",label:"NDCG"},{value:"MCC",label:"MCC"}])
+       }
+      }
+    },[dataDomain, modelParadigm])
+    
+    useEffect(() => {
+      if(!(availableMetrics.map((metric) => metric.value).includes(currStatistic))){
+        setCurrStatistic(availableMetrics[0].value);
+      }
+    },[availableMetrics, currStatistic])
+  
+    // useEffect(() => {
+    //   if(dataDomain === "clinical_substitutions" || dataDomain === "clinical_indels"){
+    //     setAvailableParadigms([{value:"zero_shot", label:"Zero-Shot"}]);
+    //   }
+    //   else if(dataDomain === "DMS_substitutions" || dataDomain === "DMS_indels"){
+    //     setAvailableParadigms([{value:"zero_shot", label:"Zero-Shot"},{value:"supervised", label:"Supervised"}]);
+    //   }
+    // },[dataDomain])
 
     useEffect(() => {
         if(viewType === 'aggregate') {
@@ -157,7 +249,8 @@ function Benchmarks() {
             header: true,
             complete: function(results) {
                 handleCsvData(results.data);
-              }
+              },
+              error: handleCsvError
           });
         } else if (viewType === "full") {
             var filepath; 
@@ -167,10 +260,12 @@ function Benchmarks() {
                 header: true,
                 complete: function(results) {
                     handleCsvData(results.data);
-                }
+                },
+                error: handleCsvError
             });
         }
     },[viewType, modelParadigm, dataDomain, currStatistic])
+
 
     const sortedTableData = useMemo(() => {
         if (tableData.length === 0) {
@@ -209,11 +304,11 @@ function Benchmarks() {
       if(viewType == 'full') {
         return <tr style={{backgroundColor:BACKGROUND_COLOR}}>
           {tableColumns.map((column) => (
-              <th className={(column === 'DMS ID') ? 'th-fixed-header' : 'default-header'} onClick={() => setSortKey(computeNextSortKey(sortKey, column))} key={column}>{column}{renderSortIcon(column, sortKey)}</th>
+              <th className={(column === 'DMS ID' || column == "RefSeq ID") ? 'th-fixed-header' : 'default-header'} onClick={() => setSortKey(computeNextSortKey(sortKey, column))} key={column}>{column}{renderSortIcon(column, sortKey)}</th>
           ))}
         </tr> 
       }
-      else if(viewType === 'aggregate' && (dataDomain === 'DMS_substitutions' || dataDomain === 'clinical_substitutions')) {
+      else if(viewType === 'aggregate' && (dataDomain === 'DMS_substitutions' || dataDomain === "DMS_indels")) {
        return <>
                 <tr style={{backgroundColor:BACKGROUND_COLOR}}>
                   {tableColumns.map((column, index) => {
@@ -227,7 +322,7 @@ function Benchmarks() {
                   }
                   })}
                   {/* create dummy spaces to place superheaders in right position */}
-                  {AGGREGATE_SUPERHEADERS.map((column) => (
+                  {aggregateSuperheaders.map((column) => (
                       <th className="th-header" key={column.key} colSpan={column.colspan}>{column.key}</th>
                   ))}
                   </tr>
@@ -247,42 +342,31 @@ function Benchmarks() {
         </tr> 
       }
     }
-    // Since we only provide AUC for clinical variants, this sets the statistic to AUC if clinical datasets are selected
-    function setDataDomainWithStatistic(value){
-      if (value === "clinical_substitutions" || value === "clinical_indels"){
-        setCurrStatistic("AUC");
-      }
-      else{
-        setCurrStatistic("Spearman");
-      }
-      setDataDomain(value);
-    }
-    
+
     function getChecked(value){
       return value === viewType;
     }
-
     return (
         <div className="main-div">
         <h1 className="title">Benchmark Scores</h1>
         <div className="search-and-buttons">
           <div className="dropdowns">
-            <Select style={{ float:"left", marginRight:"2vw"}} label="" placeholder="Mutation Type" onChange={setDataDomainWithStatistic} data={[{value:"DMS_substitutions",label:"DMS Substitutions"},{value:"DMS_indels",label: "DMS Indels"}, 
+            <Select style={{ float:"left", marginRight:"2vw"}} label="" placeholder="Mutation Type" onChange={setDataDomain} data={[{value:"DMS_substitutions",label:"DMS Substitutions"},{value:"DMS_indels",label: "DMS Indels"}, 
             {value:"clinical_substitutions","label":"Clinical Substitutions"},{value:"clinical_indels", label:"Clinical Indels"}]} value={dataDomain}></Select>
-            <Select style={{ float:"right", marginRight:"2vw"}} label="" placeholder="Model Paradigm" onChange={setModelParadigm} data={[{value:"zero_shot", label:"Zero-Shot"},{value:"supervised", label:"Supervised"}]} value={modelParadigm}></Select>
-            <Select style={{float:"right"}} label="" placeholder="Metric" onChange={setCurrStatistic} data={(dataDomain == "clinical_substitutions" || dataDomain == "clinical_indels") ? [{value:"AUC","label":"AUC"}] : [{value:"Spearman", label:"Spearman"},{value:"AUC", label:"AUC"},{value:"NDCG",label:"NDCG"},{value:"MCC",label:"MCC"}]} value={currStatistic}></Select>
+            <Select style={{ float:"right", marginRight:"2vw"}} label="" placeholder="Model Paradigm" onChange={setModelParadigm} data={availableParadigms} value={modelParadigm}></Select>
+            <Select style={{float:"right"}} label="" placeholder="Metric" onChange={setCurrStatistic} data={availableMetrics} value={currStatistic}></Select>
           </div>
           {viewType && <div className='viewtype-buttons'>
             <Radio.Group name="View Type" onChange={(event) => setViewType(event)}>
                 <Group>
-                  <Radio value="full" checked={getChecked("full")} label="DMS View"></Radio>
+                  <Radio value="full" checked={getChecked("full")} label="Individual View"></Radio>
                   <Radio value="aggregate" checked={getChecked("aggregate")} label="Aggregate View"></Radio>
                 </Group>
             </Radio.Group>
           </div>}
         </div>
         <br/>
-        <TableVirtuoso
+        {filteredSortedTableData.length > 0 ? <TableVirtuoso
             ref={virtuosoRef}
             style={{height:"70%", width:"80%"}}
             data={filteredSortedTableData}
@@ -311,15 +395,15 @@ function Benchmarks() {
               return (
                 <>
                 {tableColumns.map((column) => (
-                    <td className={(column === 'Description' || column === "References") ? 'truncate-cell' : (column === "DMS ID" || column === "Model name") ? "sticky-column" : 'default-row'} key={column}>
+                    <td className={(column === 'Description' || column === "References") ? 'truncate-cell' : (column === "DMS ID" || column === "RefSeq ID" || column === "Model name") ? "sticky-column" : 'default-row'} key={column}>
                         {(column !== "References") ? item[column]: parse(item[column])}
                     </td>
                 ))}
                 </>
                 );
               }}
-        />
-        <p fontSize="small" style={{width:"80%"}}>* Non-parametric bootstrap standard error of the difference between the Spearman performance of a given model and that of the best overall model (ie., TranceptEVE), computed over 10k bootstrap samples from the set of proteins in the ProteinGym substitution benchmark.</p>
+        />: <h2 style={{paddingTop:"6vh"}}>{currStatistic} {viewTypeMessages[viewType]} for {cleanNames[modelParadigm]} {cleanNames[dataDomain]} not available</h2>}
+        {filteredSortedTableData.length > 0 ? <p fontSize="small" style={{width:"80%"}}>* Non-parametric bootstrap standard error of the difference between the Spearman performance of a given model and that of the best overall model (ie., TranceptEVE), computed over 10k bootstrap samples from the set of proteins in the ProteinGym substitution benchmark.</p> : <p></p>}
         </div>
     );
     }
