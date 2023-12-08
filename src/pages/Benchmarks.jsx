@@ -188,16 +188,29 @@ function Benchmarks() {
       // setAggregateColumns(columns);
       if (viewType === "aggregate"){
         data = data.map((row) => {return fixAggregateViewColumns(row,currStatistic)});
-        console.log(data);
-        data = addMissingKeys(data,columns);
+        if(data.length > 0){
+          data = addMissingKeys(data,columns);
+        }
         setTableData(data);
-        setTableColumns(columns);
+        if(data.length > 0){
+          setTableColumns(columns);
+        }
+        else{
+          setTableColumns([]);
+        }
       }
       else{
         data = data.map((row) => {return fixDMSViewColumns(row)});
-        data = addMissingKeys(data,Object.keys(data[0]));
+        if(data.length > 0){
+          data = addMissingKeys(data,Object.keys(data[0]));
+        }
         setTableData(data);
-        setTableColumns(Object.keys(data[0]));
+        if (data.length > 0){
+          setTableColumns(Object.keys(data[0]));
+        }
+        else{
+          setTableColumns([]);
+        }
       }
     }
 
