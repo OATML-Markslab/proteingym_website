@@ -28,7 +28,7 @@ function Download() {
             <br/>
             <h3>Model Scores</h3>
             <br/>
-            <h4>DMS Assays</h4>
+            <h4>DMS Assay Scores</h4>
             <div className="data-download-button">
                 <a href="https://marks.hms.harvard.edu/proteingym/zero_shot_substitutions_scores.zip"><Button style={{width:"48%"}}>Zero-shot Substitutions</Button></a> <a href="https://marks.hms.harvard.edu/proteingym/zero_shot_indels_scores.zip"><Button style={{width:"48%"}}>Zero-shot Indels</Button></a>
             </div>
@@ -37,7 +37,7 @@ function Download() {
                 <a href="https://marks.hms.harvard.edu/proteingym/DMS_supervised_substitutions_scores.csv"><Button style={{width:"48%"}}>Supervised Substitutions</Button></a> <a href="https://marks.hms.harvard.edu/proteingym/DMS_supervised_indels_scores.csv"><Button style={{width:"48%"}}>Supervised Indels</Button></a>
             </div>
             <br/>
-            <h4>Clinical Variants</h4>
+            <h4>Clinical Variant Scores</h4>
             <div className="data-download-button">
                 <a href="https://marks.hms.harvard.edu/proteingym/zero_shot_clinical_substitution_scores.zip"><Button style={{width:"48%"}}>Zero-shot Substitutions</Button></a> <a href="https://marks.hms.harvard.edu/proteingym/zero_shot_clinical_indels_scores.zip"><Button style={{width:"48%"}}>Zero-shot Indels</Button></a>
             </div>
