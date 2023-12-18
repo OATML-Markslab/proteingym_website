@@ -153,41 +153,41 @@ function Benchmarks() {
     // const [aggregateColumns, setAggregateColumns] = useState(`Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(","));
     const virtuosoRef = useRef(null);
     
-    function handleCsvData(data) {
+    function handleCsvData(data, statistic) {
       var superheaders = [];
       var columns = [];
       if(modelParadigm === "zero_shot"){
         if(dataDomain === "DMS_substitutions"){
-          superheaders = [{"key":`${currStatistic} by Function`,"colspan":5}, {"key":`${currStatistic} by MSA Depth`, "colspan":3},{"key":`${currStatistic} by Taxon`,"colspan":4},{"key":`${currStatistic} by Mutation Depth`,"colspan":5},{"key":"Model Details", "colspan":2}];
-          columns = `Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,1,2,3,4,5+,Description,References`.split(",");
+          superheaders = [{"key":`${statistic} by Function`,"colspan":5}, {"key":`${statistic} by MSA Depth`, "colspan":3},{"key":`${statistic} by Taxon`,"colspan":4},{"key":`${statistic} by Mutation Depth`,"colspan":5},{"key":"Model Details", "colspan":2}];
+          columns = `Rank,Model name,Model type,Avg. ${statistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,1,2,3,4,5+,Description,References`.split(",");
         }
         else if(dataDomain === "DMS_indels"){
-          superheaders = [{"key":`${currStatistic} by Function`,"colspan":5}, {"key":`${currStatistic} by MSA Depth`, "colspan":3},{"key":`${currStatistic} by Taxon`,"colspan":4},{"key":"Model Details", "colspan":2}];
-          columns = `Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(",");
+          superheaders = [{"key":`${statistic} by Function`,"colspan":5}, {"key":`${statistic} by MSA Depth`, "colspan":3},{"key":`${statistic} by Taxon`,"colspan":4},{"key":"Model Details", "colspan":2}];
+          columns = `Rank,Model name,Model type,Avg. ${statistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(",");
         }
         else if(dataDomain === "clinical_substitutions"){
           superheaders = [];
-          columns = `Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*`.split(",");
+          columns = `Rank,Model name,Model type,Avg. ${statistic},Std. Error of Diff. to Best Score*`.split(",");
         }
         else if(dataDomain === "clinical_indels"){
           superheaders = [];
-          columns = `Rank,Model name,Model type,Avg. ${currStatistic}`.split(",");
+          columns = `Rank,Model name,Model type,Avg. ${statistic}`.split(",");
         }
       }
       else {
         if(dataDomain === "DMS_substitutions" || dataDomain === "DMS_indels"){
-          superheaders = [{"key":`${currStatistic} by Cross-Validation Scheme`,"colspan":3},{"key":`${currStatistic} by Function`,"colspan":5}, {"key":`${currStatistic} by MSA Depth`, "colspan":3},{"key":`${currStatistic} by Taxon`,"colspan":4},{"key":"Model Details", "colspan":2}];
-          columns = `Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*,Random,Modulo,Contiguous,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(",");
+          superheaders = [{"key":`${statistic} by Cross-Validation Scheme`,"colspan":3},{"key":`${statistic} by Function`,"colspan":5}, {"key":`${statistic} by MSA Depth`, "colspan":3},{"key":`${statistic} by Taxon`,"colspan":4},{"key":"Model Details", "colspan":2}];
+          columns = `Rank,Model name,Model type,Avg. ${statistic},Std. Error of Diff. to Best Score*,Random,Modulo,Contiguous,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(",");
         }
         else if(dataDomain === "clinical_substitutions" || dataDomain === "clinical_indels"){
           superheaders = [];
-          columns = `Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*`.split(",");
+          columns = `Rank,Model name,Model type,Avg. ${statistic},Std. Error of Diff. to Best Score*`.split(",");
         }
       }
       setAggregateSuperheaders(superheaders);
       // setAggregateColumns(columns);
       if (viewType === "aggregate"){
-        data = data.map((row) => {return fixAggregateViewColumns(row,currStatistic)});
+        data = data.map((row) => {return fixAggregateViewColumns(row,statistic)});
         if(data.length > 0){
           data = addMissingKeys(data,columns);
         }
@@ -223,27 +223,6 @@ function Benchmarks() {
       setTableColumns([]);
     }
 
-    useEffect(() => {
-      if(dataDomain === "clinical_substitutions" || dataDomain === "clinical_indels"){
-        setAvailableMetrics([{value:"AUC", label:"AUC"}]);
-      }
-      else if(dataDomain === "DMS_substitutions" || dataDomain === "DMS_indels"){
-        // ideally we add in AUC, NDCG and MCC later here 
-       if(modelParadigm === "supervised"){
-          setAvailableMetrics([{value:"Spearman", label:"Spearman"},{value:"MSE", label:"MSE"}]);
-       }
-       else{
-          setAvailableMetrics([{value:"Spearman", label:"Spearman"},{value:"AUC", label:"AUC"},{value:"NDCG",label:"NDCG"},{value:"MCC",label:"MCC"}])
-       }
-      }
-    },[dataDomain, modelParadigm])
-    
-    useEffect(() => {
-      if(!(availableMetrics.map((metric) => metric.value).includes(currStatistic))){
-        setCurrStatistic(availableMetrics[0].value);
-      }
-    },[availableMetrics, currStatistic])
-  
     // useEffect(() => {
     //   if(dataDomain === "clinical_substitutions" || dataDomain === "clinical_indels"){
     //     setAvailableParadigms([{value:"zero_shot", label:"Zero-Shot"}]);
@@ -254,25 +233,49 @@ function Benchmarks() {
     // },[dataDomain])
 
     useEffect(() => {
+        // Setting available metrics depending on data subset and model paradigm
+        var metrics = [];
+        if(dataDomain === "clinical_substitutions" || dataDomain === "clinical_indels"){
+          metrics = [{value:"AUC",label:"AUC"}]
+          setAvailableMetrics(metrics);
+        }
+        else if(dataDomain === "DMS_substitutions" || dataDomain === "DMS_indels"){
+          // ideally we add in AUC, NDCG and MCC later here 
+        if(modelParadigm === "supervised"){
+            metrics = [{value:"Spearman", label:"Spearman"},{value:"MSE", label:"MSE"}]
+            setAvailableMetrics(metrics);
+        }
+        else{
+            metrics = [{value:"Spearman", label:"Spearman"},{value:"AUC", label:"AUC"},{value:"NDCG",label:"NDCG"},{value:"MCC",label:"MCC"}]
+            setAvailableMetrics(metrics)
+        }
+        } 
+        var statistic = currStatistic;
+        if(!(metrics.map((metric) => metric.value).includes(currStatistic))){
+          setCurrStatistic(metrics[0].value);
+          statistic = metrics[0].value;
+        }
+        
+        // getting new data for changed state
         if(viewType === 'aggregate') {
           var filepath; 
-          filepath = `/data/${currStatistic}/aggregate_${modelParadigm}_${dataDomain}_data.csv`;
+          filepath = `/data/${statistic}/aggregate_${modelParadigm}_${dataDomain}_data.csv`;
           Papa.parse(filepath, {
             download: true,
             header: true,
             complete: function(results) {
-                handleCsvData(results.data);
+                handleCsvData(results.data, statistic);
               },
               error: handleCsvError
           });
         } else if (viewType === "full") {
             var filepath; 
-            filepath = `/data/${currStatistic}/${modelParadigm}_${dataDomain}_data.csv`;
+            filepath = `/data/${statistic}/${modelParadigm}_${dataDomain}_data.csv`;
             Papa.parse(filepath, {
                 download: true,
                 header: true,
                 complete: function(results) {
-                    handleCsvData(results.data);
+                    handleCsvData(results.data, statistic);
                 },
                 error: handleCsvError
             });
