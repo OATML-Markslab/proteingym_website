@@ -11,6 +11,9 @@
     white-space: normal; /* Prevent text wrapping */
     overflow: hidden;
     text-overflow: ellipsis; /* Show ellipsis for overflowing text */
+    background:#3023e4;
+    color:white !important;
+    border-color: black !important;
 }
 
 .truncate-cell {
@@ -56,7 +59,9 @@
 .default-header{
   position:relative;
   z-index:2;
-  background:#ffffff;
+  color: white !important;
+  background:#3023e4;
+  border-color:black !important;
 }
 
 .default-row{
@@ -69,5 +74,8 @@
   position:sticky;
   left:0;
   z-index:3;
-  background:#ffffff;
+  background:#3023e4;
+  color:white !important;
+  border-color: black !important;
+  white-space: nowrap;
 }

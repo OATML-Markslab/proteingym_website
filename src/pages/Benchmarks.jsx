@@ -9,8 +9,8 @@ import { useLocation } from "react-router-dom";
 import parse from 'html-react-parser';
 import './css/Benchmarks.css';
 
-const BACKGROUND_COLOR = "#ffffff";
-
+const BACKGROUND_HEADER_COLOR = "#3023e4";
+const TEXT_COLOR="#ffffff"
 const cleanNames = {"zero_shot":"Zero Shot", "clinical_substitutions":"Clinical Substitutions","DMS_substitutions":"DMS Substitutions","DMS_indels":"DMS Indels","clinical_indels":"Clinical Indels","supervised":"Supervised"}
 const viewTypeMessages = {"full":"Individual View","aggregate":"Aggregate View"}
 const cleanColumns = {"DMS_id":"DMS ID", "Site_Independent":"Site Independent","DeepSequence_single":"DeepSequence (single)","DeepSequence_ensemble":"DeepSequence (ensemble)",
@@ -74,13 +74,13 @@ const renderSortIcon = (targetKey, sortKey) => {
   const decoded = decodeSortKey(sortKey);
   if (decoded.sortKey === targetKey) {
     if (decoded.direction === "ASC") {
-      return <span>▲</span>; //▲ ▴
+      return <span style={{ color: TEXT_COLOR}}>▲</span>; //▲ ▴
     } else {
-      return <span>▼</span>; // ▼▾
+      return <span style={{ color: TEXT_COLOR}}>▼</span>; // ▼▾
     }
   } else {
     // enforce same spacing using invisible character
-    return <span style={{ color: BACKGROUND_COLOR}}>▲</span>;
+    return <span style={{ color: BACKGROUND_HEADER_COLOR}}>▲</span>;
   }
 };
 
@@ -318,7 +318,7 @@ function Benchmarks() {
 
     function customHeader(){
       if(viewType == 'full') {
-        return <tr style={{backgroundColor:BACKGROUND_COLOR}}>
+        return <tr style={{backgroundColor:BACKGROUND_HEADER_COLOR}}>
           {tableColumns.map((column) => (
               <th className={(column === 'DMS ID' || column == "RefSeq ID") ? 'th-fixed-header' : 'default-header'} onClick={() => setSortKey(computeNextSortKey(sortKey, column))} key={column}>{column}{renderSortIcon(column, sortKey)}</th>
           ))}
@@ -326,7 +326,7 @@ function Benchmarks() {
       }
       else if(viewType === 'aggregate' && (dataDomain === 'DMS_substitutions' || dataDomain === "DMS_indels")) {
        return <>
-                <tr style={{backgroundColor:BACKGROUND_COLOR}}>
+                <tr style={{backgroundColor:BACKGROUND_HEADER_COLOR}}>
                   {tableColumns.map((column, index) => {
                     if(index < 5){
                       if(column === "Model name"){
@@ -342,7 +342,7 @@ function Benchmarks() {
                       <th className="th-header" key={column.key} colSpan={column.colspan}>{column.key}</th>
                   ))}
                   </tr>
-                  <tr style={{backgroundColor:BACKGROUND_COLOR}}>
+                  <tr style={{backgroundColor:BACKGROUND_HEADER_COLOR}}>
                   {tableColumns.map((column, index) => {
                       if(index >= 5){
                         return <th className="th-header" onClick={() => setSortKey(computeNextSortKey(sortKey, column))} key={column}>{column}{renderSortIcon(column, sortKey)}</th>
@@ -351,7 +351,7 @@ function Benchmarks() {
               </>
       }
       else if(viewType === 'aggregate'){
-        return <tr style={{backgroundColor:BACKGROUND_COLOR}}>
+        return <tr style={{backgroundColor:BACKGROUND_HEADER_COLOR}}>
           {tableColumns.map((column) => (
               <th className={(column === 'Model name') ? 'th-fixed-header' : 'default-header'} onClick={() => setSortKey(computeNextSortKey(sortKey, column))} key={column}>{column}{renderSortIcon(column, sortKey)}</th>
           ))}
