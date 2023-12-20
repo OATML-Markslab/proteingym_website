@@ -11,8 +11,8 @@
     white-space: normal; /* Prevent text wrapping */
     overflow: hidden;
     text-overflow: ellipsis; /* Show ellipsis for overflowing text */
-    background:#3023e4;
-    color:white !important;
+    background:#b4ddef;
+    color:black !important;
     border-color: black !important;
 }
 
@@ -59,8 +59,8 @@
 .default-header{
   position:relative;
   z-index:2;
-  color: white !important;
-  background:#3023e4;
+  color: black !important;
+  background:#b4ddef;
   border-color:black !important;
 }
 
@@ -74,8 +74,8 @@
   position:sticky;
   left:0;
   z-index:3;
-  background:#3023e4;
-  color:white !important;
+  background:#b4ddef;
+  color:black !important;
   border-color: black !important;
   white-space: nowrap;
 }

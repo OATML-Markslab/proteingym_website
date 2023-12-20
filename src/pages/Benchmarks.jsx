@@ -9,8 +9,8 @@ import { useLocation } from "react-router-dom";
 import parse from 'html-react-parser';
 import './css/Benchmarks.css';
 
-const BACKGROUND_HEADER_COLOR = "#3023e4";
-const TEXT_COLOR="#ffffff"
+const BACKGROUND_HEADER_COLOR = "#b4ddef";
+const TEXT_COLOR="#000000";
 const cleanNames = {"zero_shot":"Zero Shot", "clinical_substitutions":"Clinical Substitutions","DMS_substitutions":"DMS Substitutions","DMS_indels":"DMS Indels","clinical_indels":"Clinical Indels","supervised":"Supervised"}
 const viewTypeMessages = {"full":"Individual View","aggregate":"Aggregate View"}
 const cleanColumns = {"DMS_id":"DMS ID", "Site_Independent":"Site Independent","DeepSequence_single":"DeepSequence (single)","DeepSequence_ensemble":"DeepSequence (ensemble)",
@@ -147,7 +147,7 @@ function Benchmarks() {
     const [sortKey, setSortKey] = useState(location.state.sortKey);
     const [currStatistic, setCurrStatistic] = useState(location.state.currStatistic);
     const [searchQuery, setSearchQuery] = useState('');
-    const [availableMetrics, setAvailableMetrics] = useState([{value:"Spearman", label:"Spearman"},{value:"AUC", label:"AUC"},{value:"NDCG",label:"NDCG"},{value:"MCC",label:"MCC"}]);
+    const [availableMetrics, setAvailableMetrics] = useState([{value:"Spearman", label:"Spearman"},{value:"AUC", label:"AUC"},{value:"NDCG",label:"NDCG"},{value:"MCC",label:"MCC"},{value:"Top_recall",label:"Top-10% Recall"}]);
     const [availableParadigms, setAvailableParadigms] = useState([{value:"zero_shot", label:"Zero-Shot"},{value:"supervised", label:"Supervised"}]);
     const [aggregateSuperheaders, setAggregateSuperheaders] = useState([{"key":`${currStatistic} by Function`,"colspan":5}, {"key":`${currStatistic} by MSA Depth`, "colspan":3},{"key":`${currStatistic} by Taxon`,"colspan":4},{"key":`${currStatistic} by Mutation Depth`,"colspan":5},{"key":"Model Details", "colspan":2}]);
     // const [aggregateColumns, setAggregateColumns] = useState(`Rank,Model name,Model type,Avg. ${currStatistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(","));
@@ -246,7 +246,7 @@ function Benchmarks() {
             setAvailableMetrics(metrics);
         }
         else{
-            metrics = [{value:"Spearman", label:"Spearman"},{value:"AUC", label:"AUC"},{value:"NDCG",label:"NDCG"},{value:"MCC",label:"MCC"}]
+            metrics = [{value:"Spearman", label:"Spearman"},{value:"AUC", label:"AUC"},{value:"NDCG",label:"NDCG"},{value:"MCC",label:"MCC"},{value:"Top_recall",label:"Top-10% Recall"}]
             setAvailableMetrics(metrics)
         }
         } 

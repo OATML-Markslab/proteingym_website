@@ -35,4 +35,7 @@
 .indiv_button{
     margin-bottom:1vh;
     width:80%;
+    background-color:#b4ddef;
+    color:black;
+    border:1px solid black;
 }

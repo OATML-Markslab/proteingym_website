@@ -27,6 +27,7 @@ function Home() {
             </div>
             <div className="grey-area-div top-div">
                 <div className="text-div">
+                    <p>Find the github repository for the benchmark <a href="https://github.com/OATML-Markslab/ProteinGym">here</a></p>
                     <p className="home-text">This project has been developed by:</p>
                     <p className="home-text">Pascal Notin, Aaron Kollasch, Daniel Ritter, Lood Van Niekerk, Steffanie Paul, Han Spinner, Nathan Rollins, Ada Shaw, Rose Orenbuch, Ruben Weitzman, Jonathan Frazer, Mafalda Dias, Dinko Franceschi, Yarin Gal, and Debora Marks</p>
                     <br/>
