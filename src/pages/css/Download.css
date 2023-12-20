@@ -39,3 +39,11 @@
     color:black;
     border:1px solid black;
 }
+
+.lone_button{
+    color: black;
+    border: 1px solid black;
+    background-color: #b4ddef;
+    width:20%; 
+    margin-bottom: 1vh;
+}

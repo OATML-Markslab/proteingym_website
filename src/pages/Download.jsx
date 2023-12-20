@@ -86,7 +86,7 @@ function Download() {
             <br/>
             <h3>Additional Links</h3>
             <div className="data-download-button">
-                <a href="https://openreview.net/forum?id=URoZHqAohf&referrer=%5BAuthor%20Console%5D(%2Fgroup%3Fid%3DNeurIPS.cc%2F2023%2FTrack%2FDatasets_and_Benchmarks%2FAuthors%23your-submissions)"><Button style={{width:"20%",marginBottom:"1vh"}}>Paper</Button></a> <a href="https://github.com/OATML-Markslab/ProteinGym"><Button style={{width:"20%"}}>Github Repository</Button></a>
+                <a href="https://openreview.net/forum?id=URoZHqAohf&referrer=%5BAuthor%20Console%5D(%2Fgroup%3Fid%3DNeurIPS.cc%2F2023%2FTrack%2FDatasets_and_Benchmarks%2FAuthors%23your-submissions)"><Button className="lone_button">Paper</Button></a> <a href="https://github.com/OATML-Markslab/ProteinGym"><Button className="lone_button">Github Repository</Button></a>
             </div>
             <div className="data-download-button">
 
