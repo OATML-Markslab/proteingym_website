@@ -38,10 +38,24 @@ function Download() {
                         <a href="https://marks.hms.harvard.edu/proteingym/DMS_msa_weights.zip"><Button className="indiv_button">DMS Assays</Button></a> <a href="https://marks.hms.harvard.edu/proteingym/clinical_msa_weights.zip"><Button className="indiv_button">Clinical Variants</Button></a>
                     </div>
                 </div>
+            </div>
+            <div style={{width:"47.5%"}} className="button-group">
                 <div className="header-buttons">
                     <h3>Protein Structures</h3>
                     <div className="data-download-button">
                         <a href="https://marks.hms.harvard.edu/proteingym/ProteinGym_AF2_structures.zip"><Button className="indiv_button">DMS Structures</Button></a>
+                    </div>
+                </div>
+                <div className="header-buttons">
+                    <h3>Supervised Cross-Validation Splits</h3>
+                    <div className="data-download-button">
+                        <a href="https://marks.hms.harvard.edu/proteingym/cv_folds_singles_substitutions.zip"><Button className="indiv_button">Substitution Singles</Button></a>
+                    </div>
+                    <div className="data-download-button">
+                        <a href="https://marks.hms.harvard.edu/proteingym/cv_folds_multiples_substitutions.zip"><Button className="indiv_button">Substitution Multiples</Button></a>
+                    </div>
+                    <div className="data-download-button">
+                        <a href="https://marks.hms.harvard.edu/proteingym/cv_folds_indels.zip"><Button className="indiv_button">Indels</Button></a>
                     </div>
                 </div>
             </div>
