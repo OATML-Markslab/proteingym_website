@@ -13,6 +13,7 @@ const BACKGROUND_HEADER_COLOR = "#b4ddef";
 const TEXT_COLOR="#000000";
 const cleanNames = {"zero_shot":"Zero Shot", "clinical_substitutions":"Clinical Substitutions","DMS_substitutions":"DMS Substitutions","DMS_indels":"DMS Indels","clinical_indels":"Clinical Indels","supervised":"Supervised"}
 const viewTypeMessages = {"full":"Individual View","aggregate":"Aggregate View"}
+// TODO: Find a less ugly way to do this
 const cleanColumns = {"DMS_id":"DMS ID", "Site_Independent":"Site Independent","DeepSequence_single":"DeepSequence (single)","DeepSequence_ensemble":"DeepSequence (ensemble)",
 "EVE_single":"EVE (single)","EVE_ensemble":"EVE (ensemble)",
 "Unirep_evotune":"Unirep (evotuned)","MSA_Transformer_single":"MSA Transformer (single)","MSA_Transformer_ensemble":"MSA Transformer (ensemble)",
@@ -414,11 +415,11 @@ function Benchmarks() {
                     <td className={(column === 'Description' || column === "References") ? 'truncate-cell' : (column === "DMS ID" || column === "RefSeq ID" || column === "Model name") ? "sticky-column" : 'default-row'} key={column}>
                         {(column !== "References") ? item[column]: parse(item[column])}
                     </td>
-                ))}
+                ))} 
                 </>
                 );
               }}
-        />: <h2 style={{paddingTop:"6vh"}}>{currStatistic} {viewTypeMessages[viewType]} for {cleanNames[modelParadigm]} {cleanNames[dataDomain]} not available</h2>}
+        />: <h2 style={{paddingTop:"6vh"}}>{currStatistic} {viewTypeMessages[viewType]} for {cleanNames[modelParadigm]} {cleanNames[dataDomain]} not available</h2>} 
         {filteredSortedTableData.length > 0 ? <p fontSize="small" style={{width:"80%"}}>* Non-parametric bootstrap standard error of the difference between the Spearman performance of a given model and that of the best overall model (ie., TranceptEVE), computed over 10k bootstrap samples from the set of proteins in the ProteinGym substitution benchmark.</p> : <p></p>}
         </div>
     );
