@@ -14,17 +14,7 @@ const TEXT_COLOR="#000000";
 const cleanNames = {"zero_shot":"Zero Shot", "clinical_substitutions":"Clinical Substitutions","DMS_substitutions":"DMS Substitutions","DMS_indels":"DMS Indels","clinical_indels":"Clinical Indels","supervised":"Supervised"}
 const viewTypeMessages = {"full":"Individual View","aggregate":"Aggregate View"}
 // TODO: Find a less ugly way to do this
-const cleanColumns = {"DMS_id":"DMS ID", "Site_Independent":"Site Independent","DeepSequence_single":"DeepSequence (single)","DeepSequence_ensemble":"DeepSequence (ensemble)",
-"EVE_single":"EVE (single)","EVE_ensemble":"EVE (ensemble)",
-"Unirep_evotune":"Unirep (evotuned)","MSA_Transformer_single":"MSA Transformer (single)","MSA_Transformer_ensemble":"MSA Transformer (ensemble)",
-"ESM1v_single":"ESM1v (single)","ESM1v_ensemble":"ESM1v (ensemble)","ESM2_8M":"ESM2 (8M)", "ESM2_35M":"ESM2 (35M)","ESM2_150M":"ESM2 (150M)",
-"ESM2_650M":"ESM2 (650M)","ESM2_3B":"ESM2 (3B)","ESM2_15B":"ESM2 (15B)",
-"RITA_s":"RITA Small", "RITA_m":"RITA Medium", "RITA_l":"RITA Large", "RITA_xl":"RITA XLarge","Progen2_small":"Progen2 Small","Progen2_medium":"Progen2 Medium",
-"Progen2_large":"Progen2 Large","Progen2_base":"Progen2 Base","Progen2_xlarge":"Progen2 XLarge","Tranception_S_no_retrieval":"Tranception Small (no retrieval)",
-"Tranception_M_no_retrieval":"Tranception Medium (no retrieval)","Tranception_L_no_retrieval":"Tranception Large (no retrieval)","Tranception_S":"Tranception Small",
-"Tranception_M":"Tranception Medium", "Tranception_L":"Tranception Large","TranceptEVE_S":"TranceptEVE Small","TranceptEVE_M":"TranceptEVE Medium","TranceptEVE_L":"TranceptEVE Large",
-"CARP_38M":"CARP (38M)", "CARP_600K": "CARP (600K)", "CARP_640M":"CARP (640M)","CARP_76M":"CARP (76M)","MIFST":"MIF-ST","RITA_ensemble":"RITA (ensemble)",
-"Progen2_ensemble":"Progen2 (ensemble)","number_mutants":"Number of Mutants","UniProt_ID":"UniProt ID","Neff_L_category":"Neff/L Category","Model_rank":"Rank",
+const cleanColumns = {"DMS_id":"DMS ID", "number_mutants":"Number of Mutants","UniProt_ID":"UniProt ID","MSA_Neff_L_category":"MSA Neff/L Category","Model_rank":"Rank",
 "Model_name":"Model name","Low_MSA_depth":"Low depth","Medium_MSA_depth":"Medium depth","High_MSA_depth":"High depth","Model details":"Description",
 "Function_Activity":"Activity","Function_Binding":"Binding","Function_Expression":"Expression","Function_OrganismalFitness":"Organismal Fitness",
 "Function_Stability":"Stability","Taxa_Human":"Human","Taxa_Other_Eukaryote":"Other Eukaryote","Taxa_Prokaryote":"Prokaryote","Taxa_Virus":"Virus"}
@@ -219,19 +209,10 @@ function Benchmarks() {
       console.log(error);
       console.log(file);
       setTableData([]);
-      // setAggregateColumns([]);
       setAggregateSuperheaders([]);
       setTableColumns([]);
     }
 
-    // useEffect(() => {
-    //   if(dataDomain === "clinical_substitutions" || dataDomain === "clinical_indels"){
-    //     setAvailableParadigms([{value:"zero_shot", label:"Zero-Shot"}]);
-    //   }
-    //   else if(dataDomain === "DMS_substitutions" || dataDomain === "DMS_indels"){
-    //     setAvailableParadigms([{value:"zero_shot", label:"Zero-Shot"},{value:"supervised", label:"Supervised"}]);
-    //   }
-    // },[dataDomain])
 
     useEffect(() => {
         // Setting available metrics depending on data subset and model paradigm
@@ -276,6 +257,7 @@ function Benchmarks() {
                 download: true,
                 header: true,
                 complete: function(results) {
+                    console.log(results);
                     handleCsvData(results.data, statistic);
                 },
                 error: handleCsvError
