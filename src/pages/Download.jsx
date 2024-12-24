@@ -71,7 +71,7 @@ function Download() {
                 <div className="header-buttons">
                     <h3>Supervised DMS Assay Scores</h3>
                     <div className="data-download-button">
-                        <a href="https://marks.hms.harvard.edu/proteingym/DMS_supervised_substitutions_scores.csv"><Button className="indiv_button">Supervised Substitutions</Button></a> <a href="https://marks.hms.harvard.edu/proteingym/DMS_supervised_indels_scores.csv"><Button className="indiv_button">Supervised Indels</Button></a>
+                        <a href="https://marks.hms.harvard.edu/proteingym/DMS_supervised_substitutions_scores.zip"><Button className="indiv_button">Supervised Substitutions</Button></a> <a href="https://marks.hms.harvard.edu/proteingym/DMS_supervised_indels_scores.zip"><Button className="indiv_button">Supervised Indels</Button></a>
                     </div>
                 </div>
                 <div className="header-buttons">
