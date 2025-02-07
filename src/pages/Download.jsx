@@ -77,7 +77,7 @@ function Download() {
                 <div className="header-buttons">
                     <h3>Zero-Shot Clinical Variant Scores</h3>
                     <div className="data-download-button">
-                        <a href="https://marks.hms.harvard.edu/proteingym/zero_shot_clinical_substitution_scores.zip"><Button className="indiv_button">Zero-shot Substitutions</Button></a> <a href="https://marks.hms.harvard.edu/proteingym/zero_shot_clinical_indels_scores.zip"><Button className="indiv_button">Zero-shot Indels</Button></a>
+                        <a href="https://marks.hms.harvard.edu/proteingym/zero_shot_clinical_substitutions_scores.zip"><Button className="indiv_button">Zero-shot Substitutions</Button></a> <a href="https://marks.hms.harvard.edu/proteingym/zero_shot_clinical_indels_scores.zip"><Button className="indiv_button">Zero-shot Indels</Button></a>
                     </div>
                 </div>
             </div>
