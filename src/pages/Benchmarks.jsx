@@ -631,7 +631,7 @@ function Benchmarks() {
         <p fontSize="small" style={{ width: "80%" }}>
           * Non-parametric bootstrap standard error of the difference between
           the Spearman performance of a given model and that of the best overall
-          model (ie., TranceptEVE), computed over 10k bootstrap samples from the
+          model, computed over 10k bootstrap samples from the
           set of proteins in the ProteinGym substitution benchmark.
         </p>
       ) : (
