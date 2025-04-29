@@ -1,4 +1,4 @@
-Model_rank,Model_rank.1,Model_name,Model type,Average_AUC,Bootstrap_standard_error_AUC
+Model_rank,Model_rank.1,Model_name,Input Modalities,Average_AUC,Bootstrap_standard_error_AUC
 1,,PoET (200M),MSA,0.92,0.0
 2,,TranceptEVE L,MSA,0.92,0.002
 3,,GEMME,MSA,0.919,0.003

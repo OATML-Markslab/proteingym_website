@@ -1,4 +1,4 @@
-Model_rank,Model_name,Model type,Average_AUC,Bootstrap_standard_error_AUC
+Model_rank,Model_name,Input Modalities,Average_AUC,Bootstrap_standard_error_AUC
 1,ClinPred,Supervised,0.981,0.0
 2,MetaRNN,Supervised,0.977,0.001
 3,BayesDel (addAF),Supervised,0.972,0.001

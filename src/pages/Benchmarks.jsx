@@ -209,7 +209,7 @@ function Benchmarks() {
           { key: "Model Details", colspan: 2 },
         ];
         columns =
-          `Rank,Model name,Model type,Avg. ${statistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,1,2,3,4,5+,Description,References`.split(
+          `Rank,Model name,Input Modalities,Avg. ${statistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,1,2,3,4,5+,Description,References`.split(
             ",",
           );
       } else if (dataDomain === "DMS_indels") {
@@ -220,18 +220,18 @@ function Benchmarks() {
           { key: "Model Details", colspan: 2 },
         ];
         columns =
-          `Rank,Model name,Model type,Avg. ${statistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(
+          `Rank,Model name,Input Modalities,Avg. ${statistic},Std. Error of Diff. to Best Score*,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(
             ",",
           );
       } else if (dataDomain === "clinical_substitutions") {
         superheaders = [];
         columns =
-          `Rank,Model name,Model type,Avg. ${statistic},Std. Error of Diff. to Best Score*`.split(
+          `Rank,Model name,Input Modalities,Avg. ${statistic},Std. Error of Diff. to Best Score*`.split(
             ",",
           );
       } else if (dataDomain === "clinical_indels") {
         superheaders = [];
-        columns = `Rank,Model name,Model type,Avg. ${statistic}`.split(",");
+        columns = `Rank,Model name,Input Modalities,Avg. ${statistic}`.split(",");
       }
     } else {
       if (dataDomain === "DMS_substitutions" || dataDomain === "DMS_indels") {
@@ -243,7 +243,7 @@ function Benchmarks() {
           { key: "Model Details", colspan: 2 },
         ];
         columns =
-          `Rank,Model name,Model type,Avg. ${statistic},Std. Error of Diff. to Best Score*,Random,Modulo,Contiguous,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(
+          `Rank,Model name,Input Modalities,Avg. ${statistic},Std. Error of Diff. to Best Score*,Random,Modulo,Contiguous,Activity,Binding,Expression,Organismal Fitness,Stability,Low depth,Medium depth,High depth,Human,Other Eukaryote,Prokaryote,Virus,Description,References`.split(
             ",",
           );
       } else if (
@@ -252,7 +252,7 @@ function Benchmarks() {
       ) {
         superheaders = [];
         columns =
-          `Rank,Model name,Model type,Avg. ${statistic},Std. Error of Diff. to Best Score*`.split(
+          `Rank,Model name,Input Modalities,Avg. ${statistic},Std. Error of Diff. to Best Score*`.split(
             ",",
           );
       }

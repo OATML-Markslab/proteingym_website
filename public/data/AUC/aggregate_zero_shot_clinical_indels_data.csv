@@ -1,4 +1,4 @@
-Model_rank,Model_name,Model type,Average_AUC
+Model_rank,Model_name,Input Modalities,Average_AUC
 1,PoET (200M),MSA,0.935
 2,Provean,MSA,0.927
 3,RITA L,Single sequence,0.922
