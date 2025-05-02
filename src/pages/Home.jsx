@@ -29,8 +29,8 @@ function Home() {
                 <div className="text-div">
                     <p>Find the github repository for the benchmark <a href="https://github.com/OATML-Markslab/ProteinGym">here</a></p>
                     <p>Find the ProteinGym paper <a href="https://papers.nips.cc/paper_files/paper/2023/hash/cac723e5ff29f65e3fcbb0739ae91bee-Abstract-Datasets_and_Benchmarks.html">here</a></p>
-                    <p className="home-text">This project has been developed by:</p>
-                    <p className="home-text">Pascal Notin, Aaron Kollasch, Daniel Ritter, Lood Van Niekerk, Steffanie Paul, Han Spinner, Nathan Rollins, Ada Shaw, Rose Orenbuch, Ruben Weitzman, Jonathan Frazer, Mafalda Dias, Dinko Franceschi, Yarin Gal, and Debora Marks</p>
+                    <p className="home-text">This project has been developed and maintained by:</p>
+                    <p className="home-text">Pascal Notin, Aaron Kollasch, Daniel Ritter, Lood Van Niekerk, Steffanie Paul, Han Spinner, Nathan Rollins, Ada Shaw, Rose Orenbuch, Ruben Weitzman, Jonathan Frazer, Mafalda Dias, Dinko Franceschi, Yarin Gal, Debora Marks, Peter Groth and Artem Gazizov.</p>
                     <br/>
                     <br/>
                     <p><b>OATML</b> - Oxford Applied and Theoretical Machine Learning Group</p>
